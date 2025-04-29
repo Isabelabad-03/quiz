@@ -1,0 +1,177 @@
+body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center title and score */
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#score-area {
+    margin-bottom: 30px;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #555;
+}
+
+/* Contenedor de las tarjetas */
+.cards-container {
+    display: grid;
+    /* Crea columnas que se ajusten, mínimo 280px, máximo 1fr */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px; /* Espacio entre tarjetas */
+    padding: 0;
+}
+
+/* Estilo de cada tarjeta */
+.card {
+    background-color: transparent;
+    height: 400px; /* Altura fija para todas las tarjetas */
+    perspective: 1000px; /* Necesario para el efecto 3D */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Oculta el contenido que se desborde */
+}
+
+/* Contenedor interno que se volteará */
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s; /* Duración de la animación */
+    transform-style: preserve-3d; /* Mantiene los hijos en el espacio 3D */
+    border-radius: 8px; /* Hereda border-radius del padre */
+}
+
+/* Clase para voltear la tarjeta */
+.card.is-flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+/* Lados frontal y trasero de la tarjeta */
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Oculta el lado trasero durante el volteo */
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; // Centra contenido verticalmente si no hay mucho */
+    align-items: center; /* Centra contenido horizontalmente */
+    padding: 20px;
+    box-sizing: border-box; /* Incluye padding en el tamaño */
+    border-radius: 8px; /* Hereda border-radius del padre */
+}
+
+.card-front {
+    background-color: #fff;
+    color: #333;
+    justify-content: flex-start; /* Alinea contenido arriba */
+    text-align: left;
+}
+
+.card-front p {
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 15px;
+    flex-shrink: 0; /* Evita que el texto de la pregunta se encoja */
+}
+
+.card-front .options {
+    flex-grow: 1; /* Permite que las opciones ocupen el espacio restante */
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Opciones ocupan todo el ancho */
+}
+
+.card-front .options label {
+    display: flex; /* Permite alinear input y texto */
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.card-front .options label:hover:not(.disabled) {
+    background-color: #f0f0f0;
+}
+
+.card-front .options input[type="radio"] {
+    margin-right: 10px;
+}
+
+/* Estilos para cuando la tarjeta está volteada (radio buttons deshabilitados) */
+.card.is-flipped .card-front .options label {
+    cursor: default; /* Cambia el cursor a normal */
+    pointer-events: none; /* Deshabilita eventos de ratón en las etiquetas */
+}
+
+.card.is-flipped .card-front .options label:hover {
+    background-color: #fff; /* Elimina el efecto hover después de voltear */
+}
+
+
+.card-back {
+    background-color: #fff; /* Fondo por defecto blanco */
+    color: #333;
+    transform: rotateY(180deg); /* Comienza mirando hacia afuera */
+    display: flex; /* Usar flexbox para centrar contenido */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilo del indicador (check/X) */
+.result-indicator {
+    font-size: 4em; /* Tamaño grande del icono */
+    font-weight: bold;
+    width: 1.5em; /* Tamaño del círculo */
+    height: 1.5em;
+    border-radius: 50%; /* Forma circular */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* Color del check/X */
+    margin-bottom: 15px; /* Espacio debajo del icono */
+}
+
+.result-indicator.correct {
+    background-color: #28a745; /* Verde para correcto */
+}
+
+.result-indicator.incorrect {
+    background-color: #dc3545; /* Rojo para incorrecto */
+}
+
+/* Estilo de la justificación */
+.card-back .justification {
+    font-size: 0.9em;
+    text-align: center;
+    padding: 0 10px; /* Padding horizontal */
+    margin-top: 0;
+}
